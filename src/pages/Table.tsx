@@ -1,4 +1,4 @@
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import api from "../api";
 import TableData from "../components/Table";
 import { Itime } from "../interface/timeInterface";
@@ -6,9 +6,13 @@ import { Itime } from "../interface/timeInterface";
 const Table = () => {
   const [table, setTable] = useState([] as Itime[]);
 
-  api.get("/table").then((res) => {
-    setTable(res.data);
-  });
+  const [render, setRender] = useState(false);
+
+  useEffect(() => {
+    api.get("/table").then((res) => {
+      setTable(res.data);
+    });
+  }, []);
 
   const filtroData = () => {
     const talbeDes = table.sort((a, b) => {
@@ -22,6 +26,7 @@ const Table = () => {
       return 0;
     });
     setTable(talbeDes);
+    setRender(!render);
   };
 
   const filtTempo = () => {
@@ -36,6 +41,8 @@ const Table = () => {
       return 0;
     });
     setTable(talbeDes);
+    setRender(!render);
+    console.log(table);
   };
 
   const filtroDataDES = () => {
@@ -50,6 +57,7 @@ const Table = () => {
       return 0;
     });
     setTable(talbeDes);
+    setRender(!render);
   };
 
   const filtTempoDES = () => {
@@ -64,6 +72,8 @@ const Table = () => {
       return 0;
     });
     setTable(talbeDes);
+    setRender(!render);
+    console.log(table);
   };
 
   const filtroDataIntervalo = (e: any): void => {
@@ -76,6 +86,7 @@ const Table = () => {
     });
 
     setTable(intervalo);
+    setRender(!render);
   };
 
   return (
